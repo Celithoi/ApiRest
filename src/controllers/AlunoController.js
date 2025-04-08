@@ -1,11 +1,19 @@
 import Aluno from '../models/Aluno.js';
+import Foto from '../models/Foto.js';
 
 
 class AlunoController {
 
   // função para achar todos os valores dentro do banco de dados
   async index(req, res) {
-    const alunos = await Aluno.findAll();
+    const alunos = await Aluno.findAll({
+      attributes: ['id', 'nome', 'sobrenome', 'email', 'idade', 'peso', 'altura'],
+      order: [['id', 'DESC'], [Foto, 'id', 'DESC']],
+      include: {
+        model: Foto,
+        attributes: ['filename'],
+      },
+    });
     res.json(alunos);
   }
   // função para criar aluno no banco de Dados
@@ -29,7 +37,14 @@ class AlunoController {
           errors: ['Faltando ID']
         });
       }
-      const aluno = await Aluno.findByPk(id);
+      const aluno = await Aluno.findByPk(id, {
+        attributes: ['id', 'nome', 'sobrenome', 'email', 'idade', 'peso', 'altura'],
+        order: [['id', 'DESC'], [Foto, 'id', 'DESC']],
+        include: {
+          model: Foto,
+          attributes: ['filename'],
+        },
+      });
       if (!aluno) {
         return res.status(400).json({
           errors: ['Aluno não existe']
