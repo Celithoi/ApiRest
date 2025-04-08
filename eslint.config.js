@@ -20,7 +20,7 @@ export default [
     // Incluindo as regras recomendadas diretamente
     rules: {
       'no-console': 'off', // Exemplo de como configurar uma regra adicional
-      'class-methods-use-this': 'off'
+      'class-methods-use-this': 'off',
     },
   },
 ];
